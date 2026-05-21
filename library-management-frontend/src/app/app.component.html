@@ -1,0 +1,5 @@
+<p-toast></p-toast>
+<app-navbar *ngIf="showNavbar"></app-navbar>
+<div [class]="showNavbar ? 'container mt-4' : ''">
+  <router-outlet></router-outlet>
+</div>

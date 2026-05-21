@@ -1,0 +1,103 @@
+<div class="login-page">
+  <div class="login-left">
+    <div class="brand">
+      <i class="bi bi-book-fill"></i>
+      <h1>LibraryMS</h1>
+      <p>Your complete library management solution</p>
+    </div>
+    <div class="features">
+      <div class="feature-item">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        <span>Manage books & catalog</span>
+      </div>
+      <div class="feature-item">
+        <i class="bi bi-people-fill"></i>
+        <span>Track members & activity</span>
+      </div>
+      <div class="feature-item">
+        <i class="bi bi-arrow-left-right"></i>
+        <span>Issue & return with ease</span>
+      </div>
+      <div class="feature-item">
+        <i class="bi bi-graph-up-arrow"></i>
+        <span>Dashboard & analytics</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>Welcome back</h2>
+        <p>Sign in to your account to continue</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <div class="input-wrapper">
+            <i class="bi bi-envelope input-icon"></i>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="you@example.com"
+              [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+              autocomplete="email"
+            />
+          </div>
+          <span class="field-error" *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched">
+            Email is required
+          </span>
+          <span class="field-error" *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched">
+            Please enter a valid email
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock input-icon"></i>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Your password"
+              [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+              autocomplete="current-password"
+            />
+            <button type="button" class="password-toggle" (click)="showPassword = !showPassword">
+              <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+          <span class="field-error" *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
+            Password is required
+          </span>
+        </div>
+
+        <button type="submit" class="btn-sign-in" [disabled]="loginForm.invalid || loading">
+          <span *ngIf="loading" class="spinner"></span>
+          <span *ngIf="!loading"><i class="bi bi-box-arrow-in-right me-2"></i>Sign in</span>
+          <span *ngIf="loading">Signing in...</span>
+        </button>
+      </form>
+
+      <div class="demo-creds">
+        <p class="demo-title">Demo credentials</p>
+        <div class="cred-grid">
+          <div class="cred-item" (click)="fillCreds('admin@library.com', 'admin123')">
+            <span class="cred-role admin">Admin</span>
+            <span class="cred-email">admin&#64;library.com</span>
+            <span class="cred-pass">admin123</span>
+          </div>
+          <div class="cred-item" (click)="fillCreds('member@library.com', 'member123')">
+            <span class="cred-role member">Member</span>
+            <span class="cred-email">member&#64;library.com</span>
+            <span class="cred-pass">member123</span>
+          </div>
+        </div>
+        <small class="click-hint">Click a card to auto-fill</small>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+.navbar {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: 0.6rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #e2e8f0 !important;
+  letter-spacing: -0.3px;
+}
+
+.navbar-brand i {
+  color: #63b3ed;
+}
+
+.nav-link {
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.85rem !important;
+  border-radius: 8px;
+  color: rgba(255,255,255,0.75) !important;
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.1);
+  color: white !important;
+}
+
+.nav-link.active {
+  background: rgba(99, 179, 237, 0.2);
+  color: #63b3ed !important;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 5px 14px;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.8rem;
+}
+
+.user-name {
+  font-weight: 500;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.role-tag {
+  background: rgba(99, 179, 237, 0.25);
+  color: #63b3ed;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.btn-logout {
+  background: rgba(245, 101, 101, 0.15);
+  border: 1px solid rgba(245, 101, 101, 0.3);
+  color: #fc8181;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: rgba(245, 101, 101, 0.3);
+  color: #fff;
+  border-color: rgba(245, 101, 101, 0.5);
+}
+
+.navbar-toggler {
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 4px 8px;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 992px) {
+  .navbar-collapse {
+    background: rgba(15, 52, 96, 0.97);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 8px;
+  }
+  .nav-link { margin: 2px 0; }
+  .user-badge, .btn-logout { margin: 6px 0; }
+}

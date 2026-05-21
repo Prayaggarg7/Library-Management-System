@@ -1,0 +1,106 @@
+<div class="issue-return-container">
+  <h1 class="mb-4">Issue / Return Books</h1>
+  
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="bi bi-book"></i> Issue Book</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="issueForm" (ngSubmit)="issueBook()">
+            <div class="mb-3">
+              <label for="bookId" class="form-label">Select Book</label>
+              <select class="form-control" id="bookId" formControlName="bookId">
+                <option value="">-- Select Book --</option>
+                <option *ngFor="let book of books" [value]="book.id">
+                  {{ book.title }} by {{ book.author }} (Available: {{ book.availableCopies }})
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="memberId" class="form-label">Select Member</label>
+              <select class="form-control" id="memberId" formControlName="memberId">
+                <option value="">-- Select Member --</option>
+                <option *ngFor="let member of members" [value]="member.id">
+                  {{ member.name }} ({{ member.email }})
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="dueDate" class="form-label">Due Date (Optional - Default: 14 days)</label>
+              <input type="date" class="form-control" id="dueDate" formControlName="dueDate">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" [disabled]="issueForm.invalid || loading">
+              <i class="bi bi-box-arrow-right"></i> Issue Book
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0"><i class="bi bi-arrow-return-left"></i> Return Book</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="transactionId" class="form-label">Select Active Issue</label>
+            <select class="form-control" id="transactionId" [(ngModel)]="selectedTransactionId">
+              <option [ngValue]="null">-- Select Active Issue --</option>
+              <option *ngFor="let transaction of activeTransactions" [ngValue]="transaction.id">
+                {{ transaction.bookTitle }} issued to {{ transaction.memberName }} 
+                (Due: {{ transaction.dueDate | date:'mediumDate' }})
+              </option>
+            </select>
+          </div>
+          <button class="btn btn-success w-100" (click)="returnBook()" [disabled]="!selectedTransactionId || loading">
+            <i class="bi bi-arrow-return-left"></i> Return Book
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0"><i class="bi bi-clock-history"></i> Active Issues</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Book</th>
+                  <th>Member</th>
+                  <th>Due Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transaction of activeTransactions">
+                  <td>{{ transaction.bookTitle }}</td>
+                  <td>{{ transaction.memberName }}</td>
+                  <td [class.text-danger]="isOverdue(transaction.dueDate)">
+                    {{ transaction.dueDate | date:'mediumDate' }}
+                    <span *ngIf="isOverdue(transaction.dueDate)" class="badge bg-danger ms-2">Overdue</span>
+                  </td>
+                </tr>
+                <tr *ngIf="activeTransactions.length === 0">
+                  <td colspan="3" class="text-center">No active issues</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

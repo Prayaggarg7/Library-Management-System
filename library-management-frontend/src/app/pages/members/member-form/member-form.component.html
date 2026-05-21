@@ -1,0 +1,53 @@
+<div class="member-form-container">
+  <h1 class="mb-4">{{ isEditMode ? 'Edit Member' : 'Add New Member' }}</h1>
+  
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="name" class="form-label">Name *</label>
+            <input type="text" class="form-control" id="name" formControlName="name"
+                   [class.is-invalid]="memberForm.get('name')?.invalid && memberForm.get('name')?.touched">
+            <div class="invalid-feedback" *ngIf="memberForm.get('name')?.errors?.['required']">
+              Name is required
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="email" class="form-label">Email *</label>
+            <input type="email" class="form-control" id="email" formControlName="email"
+                   [class.is-invalid]="memberForm.get('email')?.invalid && memberForm.get('email')?.touched">
+            <div class="invalid-feedback" *ngIf="memberForm.get('email')?.errors?.['required']">
+              Email is required
+            </div>
+            <div class="invalid-feedback" *ngIf="memberForm.get('email')?.errors?.['email']">
+              Invalid email format
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3" *ngIf="isEditMode">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-control" id="status" formControlName="status">
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="INACTIVE">INACTIVE</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary" [disabled]="memberForm.invalid || loading">
+              {{ isEditMode ? 'Update' : 'Create' }} Member
+            </button>
+            <button type="button" class="btn btn-secondary ms-2" (click)="onCancel()">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

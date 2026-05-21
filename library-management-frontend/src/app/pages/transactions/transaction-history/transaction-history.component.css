@@ -1,0 +1,29 @@
+.transaction-history {
+  padding: 20px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.card {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.badge {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+.text-danger {
+  font-weight: 500;
+}
+
+.btn-group {
+  gap: 5px;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}

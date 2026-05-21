@@ -1,0 +1,11 @@
+.books-list {
+  padding: 20px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.btn-sm {
+  margin: 0 2px;
+}

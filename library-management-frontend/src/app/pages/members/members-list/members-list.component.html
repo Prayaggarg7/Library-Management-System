@@ -1,0 +1,93 @@
+<p-toast></p-toast>
+<div class="members-list">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Members Management</h1>
+    <button class="btn btn-primary" routerLink="/members/new">
+      <i class="bi bi-plus-circle"></i> Add New Member
+    </button>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search members by name or email..." 
+               [(ngModel)]="searchQuery" (keyup.enter)="search()">
+        <button class="btn btn-outline-primary" type="button" (click)="search()">
+          <i class="bi bi-search"></i> Search
+        </button>
+        <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()" *ngIf="searchQuery">
+          <i class="bi bi-x-circle"></i> Clear
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2 text-muted">Please wait...</p>
+  </div>
+
+  <!-- Table Content -->
+  <div *ngIf="!loading">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>ID <i class="bi bi-arrow-up-down cursor-pointer" (click)="onSortChange('id')"></i></th>
+            <th>Name <i class="bi bi-arrow-up-down cursor-pointer" (click)="onSortChange('name')"></i></th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Role</th>
+            <th>Member Since</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of members">
+            <td>{{ member.id }}</td>
+            <td>{{ member.name }}</td>
+            <td>{{ member.email }}</td>
+            <td>
+              <select class="form-select form-select-sm" 
+                      [value]="member.status" 
+                      (change)="updateStatus(member.id, $any($event.target).value)"
+                      style="width: 120px;">
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
+                <option value="SUSPENDED">SUSPENDED</option>
+              </select>
+            </td>
+            <td>
+              <span [class]="member.role === 'ADMIN' ? 'badge bg-danger' : (member.role === 'LIBRARIAN' ? 'badge bg-info' : 'badge bg-secondary')">
+                {{ member.role || 'MEMBER' }}
+              </span>
+            </td>
+            <td>{{ member.createdAt | date:'mediumDate' }}</td>
+            <td>
+              <button class="btn btn-sm btn-info me-1" [routerLink]="['/members/edit', member.id]">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="deactivateMember(member.id)" *ngIf="member.status === 'ACTIVE'">
+                <i class="bi bi-person-x"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="members.length === 0">
+            <td colspan="7" class="text-center">No members found</td>
+          </tr>
+        </tbody>
+       </table>
+    </div>
+
+    <ngb-pagination *ngIf="totalPages > 0"
+      [collectionSize]="totalElements"
+      [(page)]="currentPage"
+      [pageSize]="pageSize"
+      (pageChange)="onPageChange($event)"
+      class="justify-content-end mt-3">
+    </ngb-pagination>
+  </div>
+</div>

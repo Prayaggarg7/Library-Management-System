@@ -1,0 +1,97 @@
+<div class="transaction-history">
+  <h1 class="mb-4">Transaction History</h1>
+  
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Filters</h5>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>Filter by Member ID</label>
+            <input type="number" class="form-control" [(ngModel)]="memberId" placeholder="Enter member ID">
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>Filter by Book ID</label>
+            <input type="number" class="form-control" [(ngModel)]="bookId" placeholder="Enter book ID">
+          </div>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <div class="btn-group w-100">
+            <button class="btn btn-primary" (click)="applyFilters()">
+              <i class="bi bi-search"></i> Apply
+            </button>
+            <button class="btn btn-secondary" (click)="clearFilters()">
+              <i class="bi bi-x-circle"></i> Clear
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div class="table-responsive" *ngIf="!loading">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Book Title</th>
+          <th>Member Name</th>
+          <th>Issued At</th>
+          <th>Due Date</th>
+          <th>Returned At</th>
+          <th>Status</th>
+          <th>Fine Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions">
+          <td>{{ transaction.id }}</td>
+          <td>{{ transaction.bookTitle }}</td>
+          <td>{{ transaction.memberName }}</td>
+          <td>{{ transaction.issuedAt | date:'medium' }}</td>
+          <td [class.text-danger]="isOverdue(transaction.dueDate)">
+            {{ transaction.dueDate | date:'mediumDate' }}
+          </td>
+          <td>
+            <span *ngIf="transaction.returnedAt; else notReturned">
+              {{ transaction.returnedAt | date:'medium' }}
+            </span>
+            <ng-template #notReturned>
+              <span class="text-muted">-</span>
+            </ng-template>
+          </td>
+          <td>
+            <span [class]="getStatusClass(transaction.status)">
+              {{ transaction.status }}
+            </span>
+          </td>
+          <td>
+            <span *ngIf="transaction.fineAmount > 0" class="text-danger fw-bold">
+              ${{ transaction.fineAmount }}
+            </span>
+            <span *ngIf="transaction.fineAmount === 0" class="text-muted">-</span>
+          </td>
+        </tr>
+        <tr *ngIf="transactions.length === 0">
+          <td colspan="8" class="text-center">No transactions found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ngb-pagination *ngIf="totalPages > 0 && !loading"
+    [collectionSize]="totalElements"
+    [(page)]="currentPage"
+    [pageSize]="pageSize"
+    (pageChange)="onPageChange($event)"
+    class="justify-content-end mt-3">
+  </ngb-pagination>
+</div>
